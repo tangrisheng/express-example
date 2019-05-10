@@ -1,12 +1,12 @@
 pipeline {
     agent any
     parameters {
-        string(name: 'express-example', source: '~/express-example')
+        string(name: '~/express-example')
     }
     environment {
         NODE_ENV = 'dev'
     }
-    def fullPath = '${params.source}-${env.NODE_ENV}'
+    def fullPath = '${params.name}-${env.NODE_ENV}'
     stages {
         stage('stop pm2') {
             steps {
