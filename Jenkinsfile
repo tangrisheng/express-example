@@ -6,7 +6,7 @@ pipeline {
     environment {
         NODE_ENV = 'dev'
     }
-    def fullPath = ${params.folder}-${env.NODE_ENV}
+    def fullPath = '${params.folder}-${env.NODE_ENV}'
     stages {
         stage('stop pm2') {
             steps {
