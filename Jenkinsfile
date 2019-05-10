@@ -7,7 +7,9 @@ pipeline {
         NODE_ENV = 'dev'
     }
     stages {
-        def fullPath = '${params.name}-${env.NODE_ENV}'
+        script {
+            def fullPath = '${params.name}-${env.NODE_ENV}'
+        }
         stage('stop pm2') {
             steps {
                 sshagent(credentials: ['557481da-4f94-40c8-b323-870b3a16ee13']) {
