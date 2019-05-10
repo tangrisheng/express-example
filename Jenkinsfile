@@ -2,7 +2,7 @@ pipeline {
     agent any
     stages {
         stage('deploy') {
-            node {
+            steps {
                sshagent(credentials: ['557481da-4f94-40c8-b323-870b3a16ee13']) {
                    sh 'ssh ec2-user@52.82.65.180'
                    sh 'echo login in zhiwen server'
