@@ -1,11 +1,5 @@
 pipeline {
     agent any
-    parameters {
-        string(name: '~/express-example')
-    }
-    environment {
-        NODE_ENV = 'dev'
-    }
 
     stages {
         stage('stop pm2') {
@@ -22,7 +16,7 @@ pipeline {
                     sh 'ssh -o StrictHostKeyChecking=no ec2-user@52.82.65.180 "mkdir -p ~/express-example"'
                     sh 'echo "-------copy files----------"'
                     sh 'scp -r ./* ec2-user@52.82.65.180:~/express-example/'
-                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@52.82.65.180 "cd ~/express-example && npm install && pm2 restart pm2.json --env ${env.NODE_ENV}"'
+                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@52.82.65.180 "cd ~/express-example && npm install && pm2 restart pm2.json --env dev"'
                 }
             }
         }

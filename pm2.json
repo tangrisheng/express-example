@@ -1,6 +1,5 @@
 {
   "name": "express-example",
-  //启动app名称
   "script": "bin/www",
   "error_file": "./log/error.log",
   "out_file": "./log/access.log",
