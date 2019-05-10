@@ -2,6 +2,15 @@ pipeline {
     agent any
 
     stages {
+        stage('test stage') {
+            steps {
+                echo '${env.BRANCH_NAME}'
+                if (env.BRANCH_NAME.startWith('release')) {
+                    echo 'startWith release'
+                }
+
+            }
+        }
         stage('pm2 stop and rm old files') {
             steps {
                 sshagent(credentials: ['557481da-4f94-40c8-b323-870b3a16ee13']) {
