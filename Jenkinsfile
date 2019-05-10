@@ -1,13 +1,28 @@
 pipeline {
     agent any
+    parameters {
+        string(name: 'express-example', folder: '~/express-example')
+    }
+    environment {
+        NODE_ENV = 'dev'
+    }
+    def fullPath = ${folder}-${env.NODE_ENV}
     stages {
+        stage('stop pm2') {
+            steps {
+                sshagent(credentials: ['557481da-4f94-40c8-b323-870b3a16ee13']) {
+                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@52.82.65.180 "pm2 stop ${name} && rm -rf ${fullPath}"'
+                }
+            }
+        }
         stage('deploy') {
             steps {
                 sshagent(credentials: ['557481da-4f94-40c8-b323-870b3a16ee13']) {
-                    sh 'echo "-------make express-example dir----------"'
-                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@52.82.65.180 "mkdir -p ~/express-example"'
+                    sh 'echo "-------mkdir----------"'
+                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@52.82.65.180 "mkdir -p ${fullPath}"'
                     sh 'echo "-------copy files----------"'
-                    sh 'mkdir -p ~/express-example && scp -r ./* ec2-user@52.82.65.180:~/express-example/'
+                    sh 'scp -r ./* ec2-user@52.82.65.180:~/express-example/'
+                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@52.82.65.180 "cd ${fullPath} && npm install && pm2 start pm2.json --env ${env.NODE_ENV}"'
                 }
             }
         }
