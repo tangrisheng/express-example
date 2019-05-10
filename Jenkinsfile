@@ -7,13 +7,10 @@ pipeline {
         NODE_ENV = 'dev'
     }
     stages {
-        script {
-            def fullPath = '${params.name}-${env.NODE_ENV}'
-        }
         stage('stop pm2') {
             steps {
                 sshagent(credentials: ['557481da-4f94-40c8-b323-870b3a16ee13']) {
-                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@52.82.65.180 "pm2 stop ${name} && rm -rf ${fullPath}"'
+                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@52.82.65.180 "pm2 stop ${name} && rm -rf ${params.name}-${env.NODE_ENV}"'
                 }
             }
         }
@@ -21,10 +18,10 @@ pipeline {
             steps {
                 sshagent(credentials: ['557481da-4f94-40c8-b323-870b3a16ee13']) {
                     sh 'echo "-------mkdir----------"'
-                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@52.82.65.180 "mkdir -p ${fullPath}"'
+                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@52.82.65.180 "mkdir -p ${params.name}-${env.NODE_ENV}"'
                     sh 'echo "-------copy files----------"'
                     sh 'scp -r ./* ec2-user@52.82.65.180:~/express-example/'
-                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@52.82.65.180 "cd ${fullPath} && npm install && pm2 start pm2.json --env ${env.NODE_ENV}"'
+                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@52.82.65.180 "cd ${params.name}-${env.NODE_ENV} && npm install && pm2 start pm2.json --env ${env.NODE_ENV}"'
                 }
             }
         }
