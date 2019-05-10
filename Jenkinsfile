@@ -6,6 +6,7 @@ pipeline {
     environment {
         NODE_ENV = 'dev'
     }
+
     stages {
         stage('stop pm2') {
             steps {
