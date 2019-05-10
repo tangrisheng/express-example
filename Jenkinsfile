@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        IS_STAGING = env.BRANCH_NAME.startWith('release')
+        IS_STAGING = env.BRANCH_NAME.startsWith('release')
         STAGING_PATH = '~/express-example-staging'
         PROD_PATH = '~/express-example-staging'
     }
