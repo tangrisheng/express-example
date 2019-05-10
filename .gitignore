@@ -1,0 +1,32 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# Compiled output
+build/
+
+# Auto generated temp resolvers
+src/generated/tmp-resolvers
+
+# Dependency directories
+node_modules/
+
+# Misc
+**/.DS_Store
+
+# src *.js *.map
+*.js
+*.map
+
+# idea
+.idea/
+src/generated/
+.env
+package-lock.json
+
